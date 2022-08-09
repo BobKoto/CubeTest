@@ -1,0 +1,259 @@
+﻿//You are free to use this script in Free or Commercial projects
+//sharpcoderblog.com @2019
+
+using System.Collections;
+using UnityEngine;
+
+public class SC_FlappyCubeGame : MonoBehaviour
+{
+    //Public variables
+    public Camera mainCamera;
+    public float cameraDistance = 10f;
+    public float pillarHeight = 10f;
+    public float distanceBetweenPillars = 5f;
+    public float heightDistance = 4.5f;
+    public float speed = 1.25f;
+    public Color flappyCubeColor = new Color(1, 0.5f, 0);
+    public Color pillarColor = Color.green;
+
+    //Player cube
+    GameObject flappyCube;
+    Rigidbody flappyCubeRigidbody;
+
+    //Pillars
+    public class Pillar
+    {
+        public Transform pillarRoot;
+        public GameObject topCube;
+        public GameObject bottomCube;
+        public BoxCollider middleCollider; //Trigger collider for points
+        public float offsetX; //When pillar reaches the end of Camera view, bring it to front by adding the offset
+    }
+    public Pillar[] pillarCubes;
+
+    Vector3 initialPoint;
+    Vector3 endPoint;
+    Vector3 topPoint;
+    Vector3 bottomPoint;
+    Vector3 flappyCubeInitialPosition;
+
+    bool gameStarted = false;
+    bool gameOver = false;
+    bool canRestart = false;
+    bool newBestScore = false;
+
+    int totalPoints = 0;
+    int highestScore = 0;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //Define reference points relative to Main Camera
+        initialPoint = mainCamera.ViewportToWorldPoint(new Vector3(1.1f, 0.5f, cameraDistance));
+        endPoint = mainCamera.ViewportToWorldPoint(new Vector3(-0.1f, 0.5f, cameraDistance));
+        topPoint = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 1f, cameraDistance));
+        bottomPoint = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0f, cameraDistance));
+
+        //Create Flappy Cube
+        flappyCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        flappyCubeInitialPosition = mainCamera.ViewportToWorldPoint(new Vector3(0.35f, 0.5f, cameraDistance));
+        flappyCube.transform.position = flappyCubeInitialPosition;
+        flappyCubeRigidbody = flappyCube.AddComponent<Rigidbody>();
+        flappyCubeRigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+        MeshRenderer mr = flappyCube.GetComponent<MeshRenderer>();
+        mr.sharedMaterial = new Material(Shader.Find("Legacy Shaders/Diffuse"));
+        mr.sharedMaterial.color = flappyCubeColor;
+        flappyCube.AddComponent<SC_CollisionDetector>().fcg = this;
+
+        //Create Pillar cubes
+        pillarCubes = new Pillar[7];
+        Material pillarMaterial = new Material(flappyCube.GetComponent<MeshRenderer>().sharedMaterial);
+        pillarMaterial.color = pillarColor;
+        for (int i = 0; i < pillarCubes.Length; i++)
+        {
+            Vector3 initialPointTmp = initialPoint + new Vector3(distanceBetweenPillars * i, 0, 0);
+            //Create new Pillar instance
+            Pillar newPillar = new Pillar();
+            //Create pillar Root Object
+            newPillar.pillarRoot = (new GameObject("Pillar")).transform;
+            newPillar.pillarRoot.position = initialPointTmp;
+            //Middle collider 
+            GameObject colliderObject = new GameObject("TriggerCollider");
+            colliderObject.transform.position = initialPointTmp;
+            colliderObject.transform.SetParent(newPillar.pillarRoot);
+            newPillar.middleCollider = colliderObject.AddComponent<BoxCollider>();
+            newPillar.middleCollider.size = new Vector3(0.5f, heightDistance, 1);
+            newPillar.middleCollider.isTrigger = true;
+            colliderObject.AddComponent<SC_TriggerDetector>().fcg = this;
+            //Top Pillar
+            newPillar.topCube = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            newPillar.topCube.transform.SetParent(newPillar.pillarRoot);
+            initialPointTmp.y += heightDistance / 2 + pillarHeight;
+            newPillar.topCube.transform.position = initialPointTmp;
+            newPillar.topCube.transform.localScale = new Vector3(1.5f, pillarHeight, 1.5f);
+            newPillar.topCube.GetComponent<MeshRenderer>().sharedMaterial = pillarMaterial;
+            Destroy(newPillar.topCube.GetComponent<CapsuleCollider>());
+            newPillar.topCube.AddComponent<BoxCollider>();
+            //Bottom pillar
+            newPillar.bottomCube = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            newPillar.bottomCube.transform.SetParent(newPillar.pillarRoot);
+            initialPointTmp.y -= (heightDistance / 2 + pillarHeight) * 2;
+            newPillar.bottomCube.transform.position = initialPointTmp;
+            newPillar.bottomCube.transform.localScale = new Vector3(1.5f, pillarHeight, 1.5f);
+            newPillar.bottomCube.GetComponent<MeshRenderer>().sharedMaterial = pillarMaterial;
+            Destroy(newPillar.bottomCube.GetComponent<CapsuleCollider>());
+            newPillar.bottomCube.AddComponent<BoxCollider>();
+            //Randomize Y position
+            float positionYOffset = Random.Range(-distanceBetweenPillars / 2, distanceBetweenPillars / 2);
+            newPillar.pillarRoot.position += new Vector3(0, positionYOffset, 0);
+            //Set Pillar parent 
+            newPillar.pillarRoot.SetParent(transform);
+            //Assign Pillar instance to array
+            pillarCubes[i] = newPillar;
+        }
+
+        //Load highest score if there any
+        if (PlayerPrefs.HasKey("SC_HightScore"))
+        {
+            highestScore = PlayerPrefs.GetInt("SC_HightScore");
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Cube jump
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (!gameStarted)
+            {
+                gameStarted = true;
+                flappyCubeRigidbody.isKinematic = false;
+            }
+            if (gameOver)
+            {
+                RestartGame();
+            }
+            else
+            {
+                flappyCubeRigidbody.velocity = new Vector3(0, 8.5f, 0);
+            }
+        } // if getkey
+
+        if (!gameStarted)
+        {
+            if (!flappyCubeRigidbody.isKinematic)
+            {
+                flappyCubeRigidbody.isKinematic = true;
+            }
+        }
+        else
+        {
+            //Infinite loop movement (The first Pillar becomes last once it goes out of view and so on)
+            for (int i = 0; i < pillarCubes.Length; i++)
+            {
+                pillarCubes[i].pillarRoot.localPosition = new Vector3(pillarCubes[i].pillarRoot.localPosition.x + pillarCubes[i].offsetX - Time.deltaTime * speed, pillarCubes[i].pillarRoot.localPosition.y, pillarCubes[i].pillarRoot.localPosition.z);
+
+                if (pillarCubes[i].pillarRoot.localPosition.x < endPoint.x)
+                {
+                    //Shift this Pillar back to the beginning
+                    int shiftAfter = -1;
+                    for (int a = 0; a < pillarCubes.Length; a++)
+                    {
+                        if (shiftAfter < 0 || pillarCubes[a].pillarRoot.localPosition.x > pillarCubes[shiftAfter].pillarRoot.localPosition.x)
+                        {
+                            shiftAfter = a;
+                        }
+                    }
+
+                    if (shiftAfter > -1)
+                    {
+                        pillarCubes[i].pillarRoot.localPosition = new Vector3(pillarCubes[shiftAfter].pillarRoot.localPosition.x + distanceBetweenPillars, initialPoint.y, initialPoint.z);
+                        float positionYOffset = Random.Range(-distanceBetweenPillars / 2, distanceBetweenPillars / 2);
+                        pillarCubes[i].pillarRoot.localPosition += new Vector3(0, positionYOffset, 0);
+                    }
+                }
+            }
+        }
+
+        //Slightly increase fall speed
+        flappyCubeRigidbody.velocity -= new Vector3(0, Time.deltaTime * 5, 0);
+        //Slightly rotate the Cube according to rigidbody velocity
+        flappyCube.transform.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(flappyCubeRigidbody.velocity.y, -35, 35));
+
+        //Came Over if the Cube goes outside of the camera view
+        if ((flappyCube.transform.position.y > topPoint.y || flappyCube.transform.position.y < bottomPoint.y) && !gameOver && gameStarted)
+        {
+            GameOver();
+        }
+    }
+
+    void RestartGame()
+    {
+        if (canRestart)
+        {
+            //Move pillars to original position
+            for (int i = 0; i < pillarCubes.Length; i++)
+            {
+                Vector3 initialPointTmp = initialPoint + new Vector3(distanceBetweenPillars * i, 0, 0);
+                //Randomize Y position
+                float positionYOffset = Random.Range(-distanceBetweenPillars / 2, distanceBetweenPillars / 2);
+                pillarCubes[i].pillarRoot.position = initialPointTmp + new Vector3(0, positionYOffset, 0);
+            }
+
+            flappyCube.transform.position = flappyCubeInitialPosition;
+            flappyCube.transform.localEulerAngles = Vector3.zero;
+            flappyCubeRigidbody.velocity = Vector3.zero;
+            gameOver = false;
+            gameStarted = false;
+            totalPoints = 0;
+            newBestScore = false;
+        }
+    }
+
+    public void GameOver()
+    {
+        gameOver = true;
+        if (totalPoints > highestScore)
+        {
+            //Save highest score
+            PlayerPrefs.SetInt("SC_HightScore", totalPoints);
+            highestScore = totalPoints;
+            newBestScore = true;
+        }
+        StartCoroutine(CanRestart());
+    }
+
+    IEnumerator CanRestart()
+    {
+        canRestart = false;
+        yield return new WaitForSeconds(1.5f);
+        canRestart = true;
+    }
+
+    public void AddPoint()
+    {
+        totalPoints++;
+    }
+
+    void OnGUI()
+    {
+        if (gameOver)
+        {
+            GUI.color = Color.red;
+            GUI.Box(new Rect(Screen.width / 2 - 90, Screen.height / 2 - 30, 180, 60), "GAME OVER\n" + (newBestScore ? "--New Best Score!--" : "") + "\nPress 'Space' to restart");
+        }
+        else
+        {
+            if (!gameStarted)
+            {
+                GUI.color = Color.green;
+                GUI.Box(new Rect(Screen.width / 2 - 90, Screen.height / 2 - 40, 180, 80), "FLAPPY CUBE\n\nBest Score: " + highestScore + "\nPress 'Space' to start");
+            }
+        }
+
+        //Show Score
+        GUI.color = Color.cyan;
+        GUI.Box(new Rect(Screen.width / 2 - 35, 10, 70, 24), totalPoints.ToString());
+    }
+}
