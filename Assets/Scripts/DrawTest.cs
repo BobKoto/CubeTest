@@ -5,6 +5,10 @@ using System.Collections;
 
 public class DrawTest : MonoBehaviour
 {
+    void Start()
+    {
+        Debug.Log(" hello world,  hello git");
+    }
     void OnDrawGizmosSelected()
     {
         Camera camera = GetComponent<Camera>();
