@@ -4,31 +4,29 @@ using UnityEngine;
 
 public class CycleTheObject : MonoBehaviour
 {
-    public float speed = 10;
+    public float speed = 10, playerSpeed = 10;
     public Transform camTransform;
-    public float transformZ;
-    Vector3 startPosition;
+    Vector3 hoopStartPosition;
+
     // Start is called before the first frame update
     void Start()
     {
-        transformZ = camTransform.position.z + 50;
-        startPosition = transform.position;
-        transform.Translate(0, 0, transformZ);
+        hoopStartPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.back * Time.deltaTime);
-        if (transform.position.z < 10)
-        {
-            transform.position = startPosition;
-        }
-
+        MoveHoop();
     }
-    //private void OnBecameInvisible()
-    //{
-    //    Debug.Log(" frame became invisible...." + transform.position);
-    //    transform.position = startPosition;
-    //}
+
+    void MoveHoop()
+    {
+       transform.position += speed * Time.deltaTime * Vector3.back;
+
+        if (transform.position.z < -.2f)
+        {
+            transform.position = hoopStartPosition;
+        }
+    }
 }
