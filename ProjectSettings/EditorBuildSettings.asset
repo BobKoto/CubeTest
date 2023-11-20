@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ScriptedScene.unity
     guid: 4e3bd496becc463439cb1d2f605b1dea
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CubeTest.unity
     guid: 97b3fd6004b769443a6bb80d99049ca8
+  - enabled: 1
+    path: Assets/Scenes/SimpleScene.unity
+    guid: 6f8e7af5c107973409b36bb1a82fde1c
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 0c1fa714520fdbf4192269693e3531b3,
       type: 2}
