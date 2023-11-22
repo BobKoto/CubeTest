@@ -15,7 +15,7 @@ public class EventBroadcaster : MonoBehaviour
         {
             StartCoroutine(ShowTouchscreenNote(5));
         }
-        Debug.Log("Input.touchSupported is " + Input.touchSupported);
+        Debug.Log("Input.touchSupported is " + Input.touchSupported    + "   If True broadcast something if we want to modify UI/Gamepad");
     }
     IEnumerator ShowTouchscreenNote(int _delay)
     {

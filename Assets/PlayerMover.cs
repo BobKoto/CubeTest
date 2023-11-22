@@ -16,7 +16,9 @@ public class PlayerMover : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {//either look for specific NewInput system input here or  do a controller  
+    {//either look for specific NewInput system input here or  do a controller
+     //
+     //if (Input.GetButton("ButtonUp"))   //bad start
         h = horizontalSpeed * Input.GetAxis("Horizontal");
         v = verticalSpeed * Input.GetAxis("Vertical");
         MovePlayer();
