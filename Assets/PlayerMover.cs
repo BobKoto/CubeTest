@@ -16,7 +16,7 @@ public class PlayerMover : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {//either look for specific NewInput system input here or  do a controller  
         h = horizontalSpeed * Input.GetAxis("Horizontal");
         v = verticalSpeed * Input.GetAxis("Vertical");
         MovePlayer();
@@ -46,6 +46,12 @@ public class PlayerMover : MonoBehaviour
 }
 
 /*    //a way for using new input without 
+ *     
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+ 
 public class cubemovernew : MonoBehaviour
 {
     private Keyboard kb;
