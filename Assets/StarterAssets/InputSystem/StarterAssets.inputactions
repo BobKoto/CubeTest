@@ -166,6 +166,50 @@
                 },
                 {
                     "name": "",
+                    "id": "a6612c58-2f30-4f6d-9740-bde0f9b25705",
+                    "path": "<Gamepad>/ButtonA",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1503609-737b-4f45-9820-f611c47c9931",
+                    "path": "<Gamepad>/ButtonW",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "60fea474-51d0-45db-97b7-8587943a8859",
+                    "path": "<GamePad>/ButtonS",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "36fddf81-9f31-4502-a9bd-fb9b27924485",
+                    "path": "<Gamepad>/ButtonD",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ed66cbff-2900-4a62-8896-696503cfcd31",
                     "path": "<Pointer>/delta",
                     "interactions": "",
