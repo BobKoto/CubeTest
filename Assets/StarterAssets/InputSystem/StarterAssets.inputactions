@@ -210,17 +210,6 @@
                 },
                 {
                     "name": "",
-                    "id": "6810a973-21da-4963-8b35-fa07a0b9c341",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)",
-                    "groups": "KeyboardMouse",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "ed66cbff-2900-4a62-8896-696503cfcd31",
                     "path": "<Pointer>/delta",
                     "interactions": "",
