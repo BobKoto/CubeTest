@@ -16,8 +16,8 @@ public class EventBroadcaster : MonoBehaviour
         if (Input.touchSupported)
         {
             StartCoroutine(ShowTouchscreenNote(5));
-            Cursor.lockState = CursorLockMode.Locked;
-            Debug.Log("Input.touchSupported is " + Input.touchSupported + " If True lock mouse cursor & broadcast something if we want to modify UI/Gamepad");
+            //Cursor.lockState = CursorLockMode.Locked;
+            Debug.Log("Input.touchSupported is " + Input.touchSupported + " If True broadcast something if we want to modify UI/Gamepad");
 
         }
     }
