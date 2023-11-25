@@ -4,22 +4,29 @@ using UnityEngine;
 
 public class CycleTheObject : MonoBehaviour
 {
-    public float speed = 10, playerSpeed = 10;
+    public float speed = 10;
     public Transform camTransform;
+    public bool ignoreAllMovement = true;  //so we can test/see performance with/without object movement especially on handheld browsers
     Vector3 hoopStartPosition;
     bool canMove;
     // Start is called before the first frame update
     private void OnEnable()
     {
         EventBroadcaster.OnGameStartPressed += SetCanMove;
+        EventBroadcaster.OnIgnoreMovementPressed += SetIgnoreAllMovement;
     }
     private void OnDisable()
     {
         EventBroadcaster.OnGameStartPressed -= SetCanMove;
+        EventBroadcaster.OnIgnoreMovementPressed -= SetIgnoreAllMovement;
     }
     void Start()
     {
         hoopStartPosition = transform.position;
+    }
+    void SetIgnoreAllMovement()
+    {
+        ignoreAllMovement = !ignoreAllMovement;
     }
     void SetCanMove()
     {
@@ -28,7 +35,7 @@ public class CycleTheObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canMove)
+        if (canMove && !ignoreAllMovement)
         {
             MoveHoop();
         }

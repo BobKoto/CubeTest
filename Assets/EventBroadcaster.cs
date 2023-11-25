@@ -6,7 +6,9 @@ public class EventBroadcaster : MonoBehaviour
 {//Component of EventBroadcasts   
     public delegate void GameStartPressed();
     public static event GameStartPressed OnGameStartPressed;
-    GameObject buttonStart, titleText, touchscreenNote;
+    public delegate void IgnoreMovementPressed();
+    public static event IgnoreMovementPressed OnIgnoreMovementPressed;
+    GameObject buttonStart, titleText, touchscreenNote, buttonIgnoreMovement ;
     private void Start()
     {
         touchscreenNote = GameObject.Find("TouchscreenNote");
@@ -14,8 +16,10 @@ public class EventBroadcaster : MonoBehaviour
         if (Input.touchSupported)
         {
             StartCoroutine(ShowTouchscreenNote(5));
+            Cursor.lockState = CursorLockMode.Locked;
+            Debug.Log("Input.touchSupported is " + Input.touchSupported + " If True lock mouse cursor & broadcast something if we want to modify UI/Gamepad");
+
         }
-        Debug.Log("Input.touchSupported is " + Input.touchSupported    + "   If True broadcast something if we want to modify UI/Gamepad");
     }
     IEnumerator ShowTouchscreenNote(int _delay)
     {
@@ -32,5 +36,15 @@ public class EventBroadcaster : MonoBehaviour
         buttonStart.SetActive(false);
         titleText = GameObject.Find("TitleText");
         titleText.SetActive(false);
+    }
+    public void OnIgnoreMovementButtonClicked()
+    {
+        //string flipMoveStopText = "";  //placeholder. we'll flip the text from like Stop/Go if we want to keep
+        if (OnIgnoreMovementPressed != null)
+            OnIgnoreMovementPressed();
+        buttonIgnoreMovement = GameObject.Find("ButtonIgnoreMovement");
+        //string s = CursorLockMode;
+      //  Debug.Log("IgnoreMovement Button pressed.... Mouse Cursor lock mode = " + CursorLockMode.Locked);
+
     }
 }
