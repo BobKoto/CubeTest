@@ -6,15 +6,25 @@ using UnityEngine.UI;
 
 public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/manager
 {//Component of EventBroadcasts   
+
     public delegate void GameStartPressed();
     public static event GameStartPressed OnGameStartPressed;
+
     public delegate void IgnoreMovementPressed();
     public static event IgnoreMovementPressed OnIgnoreMovementPressed;
+
+    public delegate void RestartPressed();
+    public static event RestartPressed OnRestartPressed;
+
     GameObject buttonStart, titleText, touchscreenNote, buttonIgnoreMovement, onScreenJoystick;
     static TextMeshProUGUI hoopsHitNumber;
+    static GameObject buttonRestart;
     public static int hoopSuccess;
+
     private void Start()
     {
+        buttonRestart = GameObject.Find("ButtonRestart");
+        buttonRestart.SetActive(false);
         hoopsHitNumber = GameObject.Find("HoopsHitNumber").GetComponent<TextMeshProUGUI>();
         onScreenJoystick = GameObject.Find("UI_Virtual_Joystick_Move");
         if (onScreenJoystick) onScreenJoystick.SetActive(false);
@@ -34,7 +44,14 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         //Debug.Log("We got a hit in EventBroadcaster................... addScore = " + addScore);
         hoopSuccess += addScore;
         hoopsHitNumber.text = hoopSuccess.ToString();
-
+        if (hoopSuccess >= 8)
+        {
+            if (OnIgnoreMovementPressed != null)
+                OnIgnoreMovementPressed();
+           // buttonRestart = GameObject.Find("ButtonRestart");
+            buttonRestart.SetActive(true);
+            hoopSuccess = 0;
+        }
     }
     IEnumerator ShowTouchscreenNote(int _delay)
     {
@@ -46,11 +63,19 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     public void OnStartButtonClicked()
     {
             if (OnGameStartPressed != null)
-                OnGameStartPressed();     //tell listeners - and now WegGl should be safe to look at new input devices (GamePad for example)
+                OnGameStartPressed();     //tell listeners - and now WebGl should be safe to look at new input devices (GamePad for example)
         buttonStart = GameObject.Find("ButtonStart");
         buttonStart.SetActive(false);
         titleText = GameObject.Find("TitleText");
         titleText.SetActive(false);
+    }
+    public void OnRestartButtonClicked()
+    {
+        if (OnRestartPressed != null)
+            OnRestartPressed();     //tell listeners - and now WebGl should be safe to look at new input devices (GamePad for example)
+        buttonRestart = GameObject.Find("ButtonRestart");
+        buttonRestart.SetActive(false);
+
     }
     public void OnIgnoreMovementButtonClicked()
     {
