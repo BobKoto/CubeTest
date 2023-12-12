@@ -1,29 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
-public class EventBroadcaster : MonoBehaviour
+public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/manager
 {//Component of EventBroadcasts   
     public delegate void GameStartPressed();
     public static event GameStartPressed OnGameStartPressed;
     public delegate void IgnoreMovementPressed();
     public static event IgnoreMovementPressed OnIgnoreMovementPressed;
-    GameObject buttonStart, titleText, touchscreenNote, buttonIgnoreMovement ;
+    GameObject buttonStart, titleText, touchscreenNote, buttonIgnoreMovement, onScreenJoystick;
+    static TextMeshProUGUI hoopsHitNumber;
+    public static int hoopSuccess;
     private void Start()
     {
+        hoopsHitNumber = GameObject.Find("HoopsHitNumber").GetComponent<TextMeshProUGUI>();
+        onScreenJoystick = GameObject.Find("UI_Virtual_Joystick_Move");
+        if (onScreenJoystick) onScreenJoystick.SetActive(false);
         touchscreenNote = GameObject.Find("TouchscreenNote");
         touchscreenNote.SetActive(false);
         if (Input.touchSupported)
         {
+            onScreenJoystick.SetActive(true);
             StartCoroutine(ShowTouchscreenNote(5));
             //Cursor.lockState = CursorLockMode.Locked;
             Debug.Log("Input.touchSupported is " + Input.touchSupported + " If True broadcast something if we want to modify UI/Gamepad");
 
         }
     }
+    public static void UpdateScore(int addScore)
+    {
+        //Debug.Log("We got a hit in EventBroadcaster................... addScore = " + addScore);
+        hoopSuccess += addScore;
+        hoopsHitNumber.text = hoopSuccess.ToString();
+
+    }
     IEnumerator ShowTouchscreenNote(int _delay)
     {
-        yield return new WaitForSeconds(_delay);
+        //yield return new WaitForSeconds(_delay);
         touchscreenNote.SetActive(true);
         yield return new WaitForSeconds(_delay);
         touchscreenNote.SetActive(false);
