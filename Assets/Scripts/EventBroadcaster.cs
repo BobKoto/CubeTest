@@ -44,7 +44,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         //Debug.Log("We got a hit in EventBroadcaster................... addScore = " + addScore);
         hoopSuccess += addScore;
         hoopsHitNumber.text = hoopSuccess.ToString();
-        if (hoopSuccess >= 8)
+        if (hoopSuccess >= 9)
         {
             if (OnIgnoreMovementPressed != null)
                 OnIgnoreMovementPressed();

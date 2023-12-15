@@ -6,7 +6,7 @@ public class CycleTheObject : MonoBehaviour
 {// Component of MovingSquare(s)
     public float speed = 10;
     public float speedUpdateInterval = 5f;
-    public Transform camTransform;
+   // public Transform camTransform;
     public bool ignoreAllMovement = true;  //so we can test/see performance with/without object movement especially on handheld browsers
     Vector3 hoopStartPosition;
     bool canMove;
