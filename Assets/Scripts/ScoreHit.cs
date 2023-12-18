@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreHit : MonoBehaviour
-{
+{  //Component of Sphere(s) in prefab MovingSquare
     SphereCollider myCollider;
     MeshRenderer meshrenderer;
-    GameObject buttonRestart;
+    //GameObject buttonRestart;
+    public ScriptableAudio scriptableAudio;
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
         myCollider = gameObject.GetComponent<SphereCollider>();
         meshrenderer = gameObject.GetComponent<MeshRenderer>();
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,14 +26,26 @@ public class ScoreHit : MonoBehaviour
             EventBroadcaster.UpdateScore(1);
             if (myCollider) myCollider.enabled = false;
             if (meshrenderer) meshrenderer.enabled = false;
+            PlayRandomClip();
         }
     }
-    public void OnRestartPressedEvent()
+
+    void PlayRandomClip()
+    {
+        AudioClip randomClip = scriptableAudio.GetRandomClip();
+
+        if (randomClip != null)
+        {
+            audioSource.clip = randomClip;
+            audioSource.Play();
+        }
+    }
+        public void OnRestartPressedEvent()
     {
         if (myCollider) myCollider.enabled = true;
         if (meshrenderer) meshrenderer.enabled = true;
-        buttonRestart = GameObject.Find("ButtonRetart");
-        if (buttonRestart) buttonRestart.SetActive(false);
+        //buttonRestart = GameObject.Find("ButtonRetart");
+        //if (buttonRestart) buttonRestart.SetActive(false);
     }
     private void OnEnable()
     {

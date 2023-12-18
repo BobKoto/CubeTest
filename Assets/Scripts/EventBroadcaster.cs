@@ -16,6 +16,9 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     public delegate void RestartPressed();
     public static event RestartPressed OnRestartPressed;
 
+    public delegate void ReportHit();
+    public static event ReportHit ReportHitEvent;
+
     GameObject buttonStart, titleText, touchscreenNote, buttonIgnoreMovement, onScreenJoystick;
     static TextMeshProUGUI hoopsHitNumber;
     static GameObject buttonRestart;
@@ -42,6 +45,8 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     public static void UpdateScore(int addScore)
     {
         //Debug.Log("We got a hit in EventBroadcaster................... addScore = " + addScore);
+        if (ReportHitEvent != null)
+            ReportHitEvent();
         hoopSuccess += addScore;
         hoopsHitNumber.text = hoopSuccess.ToString();
         if (hoopSuccess >= 9)
@@ -63,7 +68,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     public void OnStartButtonClicked()
     {
             if (OnGameStartPressed != null)
-                OnGameStartPressed();     //tell listeners - and now WebGl should be safe to look at new input devices (GamePad for example)
+                OnGameStartPressed();     //tell listeners - and now WebGL should be safe to look at new input devices (GamePad for example)
         buttonStart = GameObject.Find("ButtonStart");
         buttonStart.SetActive(false);
         titleText = GameObject.Find("TitleText");
@@ -82,7 +87,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         //string flipMoveStopText = "";  //placeholder. we'll flip the text from like Stop/Go if we want to keep
         if (OnIgnoreMovementPressed != null)
             OnIgnoreMovementPressed();
-        buttonIgnoreMovement = GameObject.Find("ButtonIgnoreMovement");
+      //  buttonIgnoreMovement = GameObject.Find("ButtonIgnoreMovement");
         //string s = CursorLockMode;
       //  Debug.Log("IgnoreMovement Button pressed.... Mouse Cursor lock mode = " + CursorLockMode.Locked);
 
