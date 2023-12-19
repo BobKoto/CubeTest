@@ -660,7 +660,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   speedUpdateInterval: 5
+  cyclesForPositionChange: 0
+  changeOnCycleCount: 5
   ignoreAllMovement: 1
+  config: {fileID: 11400000, guid: 75d244ca2c7ff324daf0ff114fc2fd51, type: 2}
 --- !u!65 &3475293199400615562
 BoxCollider:
   m_ObjectHideFlags: 0

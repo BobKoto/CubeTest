@@ -121,4 +121,8 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
             yield return _oneSecond;
         }
     }
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
 }

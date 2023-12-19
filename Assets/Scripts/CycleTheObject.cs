@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class CycleTheObject : MonoBehaviour
 {// Component of MovingSquare(s)
-    public float speed = 10;
-    public float speedUpdateInterval = 5f;
+    float speed = 10;
+    //public float speedUpdateInterval = 5f;
+    public int cyclesForPositionChange;
+   // public int changeOnCycleCount = 5;
    // public Transform camTransform;
     public bool ignoreAllMovement = true;  //so we can test/see performance with/without object movement especially on handheld browsers
     Vector3 hoopStartPosition;
     bool canMove;
+    public MovingSquareConfigSO config;
     // Start is called before the first frame update
     private void OnEnable()
     {
@@ -26,8 +29,10 @@ public class CycleTheObject : MonoBehaviour
     }
     void Start()
     {
+        speed = config.speed;
+        //Debug.Log("Scriptable speed is " + config.speed);
         hoopStartPosition = transform.position;
-        StartCoroutine(RandomizeSpeed(speedUpdateInterval));
+        StartCoroutine(RandomizeSpeed(config.speedUpdateInterval));
     }
     void ReturnToHoopStartPosition()
     {
@@ -58,8 +63,14 @@ public class CycleTheObject : MonoBehaviour
 
         if (transform.position.z < -.2f)
         {
-            hoopStartPosition.z = Random.Range(45f, 55f); //12/17/23 
-            hoopStartPosition.x = Random.Range(-4f, 4f); //12/17/23 
+            cyclesForPositionChange++;
+            if (cyclesForPositionChange >= config.changeOnCycleCount)
+            {
+                hoopStartPosition.z = Random.Range(45f, 55f); //12/17/23 
+                hoopStartPosition.x = Random.Range(-4f, 4f); //12/17/23 
+                cyclesForPositionChange = 0;
+            }
+
             transform.position = hoopStartPosition;
         }
     }
