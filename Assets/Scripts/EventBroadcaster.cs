@@ -20,15 +20,24 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     public static event ReportHit ReportHitEvent;
 
     GameObject buttonStart, titleText, touchscreenNote, buttonIgnoreMovement, onScreenJoystick;
-    static TextMeshProUGUI hoopsHitNumber;
-    static GameObject buttonRestart;
+    static TextMeshProUGUI hoopsHitNumber, yourTimeNumber;
+    static GameObject buttonRestart, buttonIntro;
     public static int hoopSuccess;
-
+    public static int hoopsHitLimit = 50;
+    static int seconds;
+    static bool timerOn;
+    Coroutine yourTimerIE;
     private void Start()
     {
+        buttonStart = GameObject.Find("ButtonStart");
+        if (buttonStart) buttonStart.SetActive(false);
         buttonRestart = GameObject.Find("ButtonRestart");
+        buttonIntro = GameObject.Find("ButtonIntro");
         buttonRestart.SetActive(false);
         hoopsHitNumber = GameObject.Find("HoopsHitNumber").GetComponent<TextMeshProUGUI>();
+        yourTimeNumber = GameObject.Find("YourTimeNumber").GetComponent<TextMeshProUGUI>();
+        //yourTimerIE = StartCoroutine( YourTimer());
+
         onScreenJoystick = GameObject.Find("UI_Virtual_Joystick_Move");
         if (onScreenJoystick) onScreenJoystick.SetActive(false);
         touchscreenNote = GameObject.Find("TouchscreenNote");
@@ -49,13 +58,15 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
             ReportHitEvent();
         hoopSuccess += addScore;
         hoopsHitNumber.text = hoopSuccess.ToString();
-        if (hoopSuccess >= 9)
+        if (hoopSuccess >= hoopsHitLimit)
         {
             if (OnIgnoreMovementPressed != null)
                 OnIgnoreMovementPressed();
            // buttonRestart = GameObject.Find("ButtonRestart");
             buttonRestart.SetActive(true);
             hoopSuccess = 0;
+           // seconds = 0;
+            timerOn = false;
         }
     }
     IEnumerator ShowTouchscreenNote(int _delay)
@@ -65,14 +76,21 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         yield return new WaitForSeconds(_delay);
         touchscreenNote.SetActive(false);
     }
+    public void OnIntroButtonClicked()
+    {
+        buttonIntro.SetActive(false);
+        buttonStart.SetActive(true);
+    }
     public void OnStartButtonClicked()
     {
-            if (OnGameStartPressed != null)
-                OnGameStartPressed();     //tell listeners - and now WebGL should be safe to look at new input devices (GamePad for example)
-        buttonStart = GameObject.Find("ButtonStart");
+        if (OnGameStartPressed != null)
+            OnGameStartPressed();     //tell listeners - and now WebGL should be safe to look at new input devices (GamePad for example)
+
         buttonStart.SetActive(false);
+        yourTimerIE = StartCoroutine(YourTimer());
         titleText = GameObject.Find("TitleText");
         titleText.SetActive(false);
+        timerOn = true;
     }
     public void OnRestartButtonClicked()
     {
@@ -80,16 +98,27 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
             OnRestartPressed();     //tell listeners - and now WebGl should be safe to look at new input devices (GamePad for example)
         buttonRestart = GameObject.Find("ButtonRestart");
         buttonRestart.SetActive(false);
-
+        seconds = 0;
+        timerOn = true;
     }
     public void OnIgnoreMovementButtonClicked()
     {
         //string flipMoveStopText = "";  //placeholder. we'll flip the text from like Stop/Go if we want to keep
         if (OnIgnoreMovementPressed != null)
             OnIgnoreMovementPressed();
-      //  buttonIgnoreMovement = GameObject.Find("ButtonIgnoreMovement");
-        //string s = CursorLockMode;
-      //  Debug.Log("IgnoreMovement Button pressed.... Mouse Cursor lock mode = " + CursorLockMode.Locked);
-
+    }
+    static IEnumerator YourTimer()
+    {
+        //int seconds = 0;
+        WaitForSeconds _oneSecond = new WaitForSeconds(1);
+        while (true)
+        {
+            if (timerOn)
+            {
+                seconds++;
+                yourTimeNumber.text = seconds.ToString();
+            }
+            yield return _oneSecond;
+        }
     }
 }

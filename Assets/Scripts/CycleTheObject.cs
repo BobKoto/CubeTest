@@ -58,6 +58,8 @@ public class CycleTheObject : MonoBehaviour
 
         if (transform.position.z < -.2f)
         {
+            hoopStartPosition.z = Random.Range(45f, 55f); //12/17/23 
+            hoopStartPosition.x = Random.Range(-4f, 4f); //12/17/23 
             transform.position = hoopStartPosition;
         }
     }
