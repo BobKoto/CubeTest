@@ -18,24 +18,31 @@ public class CycleTheObject : MonoBehaviour
     {
         EventBroadcaster.OnGameStartPressed += SetCanMove;
         EventBroadcaster.OnIgnoreMovementPressed += SetIgnoreAllMovement;
-        EventBroadcaster.OnRestartPressed += ReturnToHoopStartPosition;
+        EventBroadcaster.OnRestartPressed += RandomizeHoopStartPosition;
     }
     private void OnDisable()
     {
         EventBroadcaster.OnGameStartPressed -= SetCanMove;
         EventBroadcaster.OnIgnoreMovementPressed -= SetIgnoreAllMovement;
-        EventBroadcaster.OnRestartPressed -= ReturnToHoopStartPosition;
+        EventBroadcaster.OnRestartPressed -= RandomizeHoopStartPosition;
         StopAllCoroutines();
     }
     void Start()
     {
         speed = config.speed;
         //Debug.Log("Scriptable speed is " + config.speed);
-        hoopStartPosition = transform.position;
+        //hoopStartPosition = transform.position;  //preserves Y position
+        RandomizeHoopStartPosition();
+        //hoopStartPosition.z = config.GetRandomZStartPosition(); //
+        //hoopStartPosition.x = config.GetRandomXStartPosition(); //
+        //transform.position = hoopStartPosition;
         StartCoroutine(RandomizeSpeed(config.speedUpdateInterval));
     }
-    void ReturnToHoopStartPosition()
+    void RandomizeHoopStartPosition()  //When restart is pressed & in  on Start()
     {
+        hoopStartPosition.z = config.GetRandomZStartPosition(); //
+        hoopStartPosition.x = config.GetRandomXStartPosition(); //
+        hoopStartPosition.y = config.GetRandomYStartPosition(); //
         transform.position = hoopStartPosition;
     }
     void SetIgnoreAllMovement()
@@ -66,8 +73,10 @@ public class CycleTheObject : MonoBehaviour
             cyclesForPositionChange++;
             if (cyclesForPositionChange >= config.changeOnCycleCount)
             {
-                hoopStartPosition.z = Random.Range(45f, 55f); //12/17/23 
-                hoopStartPosition.x = Random.Range(-4f, 4f); //12/17/23 
+                //  hoopStartPosition.z = Mathf.Floor(Random.Range(44f, 54f)); //12/17/23 
+                //  hoopStartPosition.x = Mathf.Floor(Random.Range(-3f, 3f)); //12/17/23 
+                //hoopStartPosition.z = config.GetRandomZStartPosition();
+                RandomizeHoopStartPosition();
                 cyclesForPositionChange = 0;
             }
 

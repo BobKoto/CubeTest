@@ -48,7 +48,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2321061637641592993}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -131,7 +131,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2321061639468715739}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -214,7 +214,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2321061639476323947}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -297,7 +297,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2321061639517851639}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -658,10 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a26e0b1dfd31444389c39254c5d0aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  speedUpdateInterval: 5
   cyclesForPositionChange: 0
-  changeOnCycleCount: 5
   ignoreAllMovement: 1
   config: {fileID: 11400000, guid: 75d244ca2c7ff324daf0ff114fc2fd51, type: 2}
 --- !u!65 &3475293199400615562

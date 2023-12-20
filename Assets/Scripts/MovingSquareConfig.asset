@@ -14,5 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   speedUpdateInterval: 5
-  cyclesForPositionChange: 0
-  changeOnCycleCount: 100
+  changeOnCycleCount: 10
+  defaultRandomZposition: 50
+  minZStartPosition: 50
+  maxZStartposition: 54
+  minXStartPosition: -2
+  maxXStartposition: 2
+  minYStartPosition: -1
+  maxYStartposition: 1
