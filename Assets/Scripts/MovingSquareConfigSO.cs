@@ -6,7 +6,10 @@ using UnityEngine;
 public class MovingSquareConfigSO : ScriptableObject
 {
     public float speed;
+    public float speedMin;
+    public float speedMax;
     public float speedUpdateInterval;
+    public float distanceOffset;
   //  public int cyclesForPositionChange;
     public int changeOnCycleCount = 5;
     public float defaultRandomZposition = 50;

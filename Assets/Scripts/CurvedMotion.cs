@@ -11,7 +11,7 @@ public class CurvedMotion : MonoBehaviour
     bool canMove;
     public MovingSquareConfigSO config;
     public Vector3 v1, v2, v3;
-    public float distanceOffset = .7f;
+    //public float distanceOffset = .7f;  //12/21/23 replaced with scriptable obj.
     //public Transform t1, t2, t3;
     public bool point1Hit, point2Hit, point3Hit;
 
@@ -68,7 +68,7 @@ public class CurvedMotion : MonoBehaviour
         if (!point1Hit)
         {
             transform.position = Vector3.MoveTowards(transform.position, v1, step);
-            if (Vector3.Distance(transform.position, v1) < distanceOffset)  //set to .3 because .001 stalled 
+            if (Vector3.Distance(transform.position, v1) < config.distanceOffset)  //set to .3 because .001 stalled 
             {
                 point1Hit = true;
                // Debug.Log("POINT 1 hit");
@@ -78,7 +78,7 @@ public class CurvedMotion : MonoBehaviour
         if (!point2Hit)
         {
             transform.position = Vector3.MoveTowards(transform.position, v2, step);
-            if (Vector3.Distance(transform.position, v2) < distanceOffset)
+            if (Vector3.Distance(transform.position, v2) < config.distanceOffset)
             {
                 point2Hit = true;
                // Debug.Log("POINT 2 hit");
@@ -88,7 +88,7 @@ public class CurvedMotion : MonoBehaviour
         if (!point3Hit)
         {
             transform.position = Vector3.MoveTowards(transform.position, v3, step);
-            if (Vector3.Distance(transform.position, v3) < distanceOffset)
+            if (Vector3.Distance(transform.position, v3) < config.distanceOffset)
             {
                 point3Hit = true;
               //  Debug.Log("POINT 3 hit");
@@ -128,7 +128,7 @@ public class CurvedMotion : MonoBehaviour
         while (true)
         {
             yield return _delay;
-            speed = Random.Range(6f, 13f); //another eyeball range
+            speed = Random.Range(config.speedMin, config.speedMax); //Random.Range(6f, 13f); //eyeballed //12/21/23 use scriptable obj.
         }
 
     }

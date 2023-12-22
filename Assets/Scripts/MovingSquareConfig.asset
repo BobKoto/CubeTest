@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: MovingSquareConfig
   m_EditorClassIdentifier: 
   speed: 10
+  speedMin: 8
+  speedMax: 12
   speedUpdateInterval: 5
+  distanceOffset: 3
   changeOnCycleCount: 10
   defaultRandomZposition: 50
-  minZStartPosition: 50
-  maxZStartposition: 54
-  minXStartPosition: -2
-  maxXStartposition: 2
-  minYStartPosition: -1
-  maxYStartposition: 1
+  minZStartPosition: 90
+  maxZStartposition: 91
+  minXStartPosition: -15
+  maxXStartposition: 15
+  minYStartPosition: -10
+  maxYStartposition: 10
