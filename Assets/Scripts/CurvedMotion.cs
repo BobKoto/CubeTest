@@ -14,7 +14,7 @@ public class CurvedMotion : MonoBehaviour
     //public float distanceOffset = .7f;  //12/21/23 replaced with scriptable obj.
     //public Transform t1, t2, t3;
     public bool point1Hit, point2Hit, point3Hit;
-
+    float zPositionLastFrame, zPositionThisFrame;
     private void OnEnable()
     {
         EventBroadcaster.OnGameStartPressed += SetCanMove;
@@ -43,6 +43,8 @@ public class CurvedMotion : MonoBehaviour
         hoopStartPosition.x = config.GetRandomXStartPosition(); //
         hoopStartPosition.y = config.GetRandomYStartPosition(); //
         transform.position = hoopStartPosition;
+        zPositionLastFrame = transform.position.z + 1;
+        canMove = true; //need for restart 
     }
     void SetIgnoreAllMovement()
     {
@@ -51,6 +53,11 @@ public class CurvedMotion : MonoBehaviour
     void SetCanMove()  //user pressed start so now the hoops' movement is controlled by the move/stop button - why? may never know...
     {
         canMove = true;
+    }
+    void ResetCanMove()    //from SendMessage in ScoreHit
+    {
+        //Debug.Log(this.name + "  recvd msg from ScoreHit to reset canMove to false .......");
+        canMove = false;
     }
     // Update is called once per frame
     void Update()
@@ -63,12 +70,13 @@ public class CurvedMotion : MonoBehaviour
     }
 
     void MoveSphere()
-    {
+    {   //proof of concept (visual) - not final code!
         var step = speed * Time.deltaTime; // calculate distance to move
+       // zPositionLastFrame = transform.position.z;  //to check if stalled (why it stalls? dunno yet)  
         if (!point1Hit)
         {
             transform.position = Vector3.MoveTowards(transform.position, v1, step);
-            if (Vector3.Distance(transform.position, v1) < config.distanceOffset)  //set to .3 because .001 stalled 
+            if (Vector3.Distance(transform.position, v1) < config.distanceOffset)  //set to 3 because .001 stalled 
             {
                 point1Hit = true;
                // Debug.Log("POINT 1 hit");
@@ -106,7 +114,17 @@ public class CurvedMotion : MonoBehaviour
         {
             transform.position += speed * Time.deltaTime * Vector3.back;
         }
-
+        //Did it stall?
+        zPositionThisFrame = transform.position.z;
+        var progress = zPositionLastFrame - zPositionThisFrame;   //moving backward 
+        if (progress <= .05)  //if stalled try moving it
+        {
+            //Debug.Log(this.name +  " Stalled !!!! zThisFrame = " 
+            //    + zPositionThisFrame + "  zLastFrame = " + zPositionLastFrame + " progress = " + progress);
+            transform.position += speed * Time.deltaTime * Vector3.back;
+            zPositionThisFrame = transform.position.z;
+        }
+        zPositionLastFrame = zPositionThisFrame;
         //transform.position += speed * Time.deltaTime * Vector3.back;
 
             //if (transform.position.z < -.2f)

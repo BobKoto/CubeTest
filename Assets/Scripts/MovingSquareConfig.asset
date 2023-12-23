@@ -15,8 +15,8 @@ MonoBehaviour:
   speed: 10
   speedMin: 8
   speedMax: 12
-  speedUpdateInterval: 5
-  distanceOffset: 3
+  speedUpdateInterval: 2
+  distanceOffset: 0.5
   changeOnCycleCount: 10
   defaultRandomZposition: 50
   minZStartPosition: 60

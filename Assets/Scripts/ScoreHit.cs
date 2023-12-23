@@ -26,6 +26,7 @@ public class ScoreHit : MonoBehaviour
             EventBroadcaster.UpdateScore(1);
             if (myCollider) myCollider.enabled = false;
             if (meshrenderer) meshrenderer.enabled = false;
+            SendMessage("ResetCanMove");
             PlayRandomClip();
         }
     }
