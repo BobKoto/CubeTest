@@ -116,7 +116,10 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
             if (timerOn)
             {
                 seconds++;
-                yourTimeNumber.text = seconds.ToString();
+            if (seconds <= 9999)   //12/22/23 so text field stays 4 chars. user "could" leave it running, 's all we're doin for now
+                {
+                    yourTimeNumber.text = seconds.ToString();
+                }
             }
             yield return _oneSecond;
         }

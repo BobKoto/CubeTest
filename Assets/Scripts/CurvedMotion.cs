@@ -33,7 +33,7 @@ public class CurvedMotion : MonoBehaviour
         hoopStartPosition = transform.position;
         speed = config.speed;
 
-        //RandomizeHoopStartPosition();
+        RandomizeHoopStartPosition();
 
         StartCoroutine(RandomizeSpeed(config.speedUpdateInterval));
     }

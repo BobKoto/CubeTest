@@ -19,8 +19,8 @@ MonoBehaviour:
   distanceOffset: 3
   changeOnCycleCount: 10
   defaultRandomZposition: 50
-  minZStartPosition: 90
-  maxZStartposition: 91
+  minZStartPosition: 60
+  maxZStartposition: 61
   minXStartPosition: -15
   maxXStartposition: 15
   minYStartPosition: -10
