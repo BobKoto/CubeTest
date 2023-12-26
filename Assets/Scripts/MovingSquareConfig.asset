@@ -25,3 +25,7 @@ MonoBehaviour:
   maxXStartposition: 15
   minYStartPosition: -10
   maxYStartposition: 10
+  positionPointsGroup1: []
+  positionPointsGroup2: []
+  positionPointsGroup3: []
+  setTimeScale: 1

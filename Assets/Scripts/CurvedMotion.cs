@@ -14,6 +14,7 @@ public class CurvedMotion : MonoBehaviour
     //public float distanceOffset = .7f;  //12/21/23 replaced with scriptable obj.
     //public Transform t1, t2, t3;
     public bool point1Hit, point2Hit, point3Hit;
+    //bool letsDebug;
     float zPositionLastFrame, zPositionThisFrame;
     private void OnEnable()
     {
@@ -34,7 +35,11 @@ public class CurvedMotion : MonoBehaviour
         speed = config.speed;
 
         RandomizeHoopStartPosition();
-
+        //if (name == "CurvingSphere")
+        //{
+        //    Debug.Log(name + " is Found see inside for debug options");
+        //    letsDebug = true; //uncomment this block esp. to temporarily enable (lots of) debug logs
+        //}
         StartCoroutine(RandomizeSpeed(config.speedUpdateInterval));
     }
     void RandomizeHoopStartPosition()  //When restart is pressed & in  on Start()
@@ -62,6 +67,7 @@ public class CurvedMotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Time.timeScale = config.setTimeScale;
         if (canMove && !ignoreAllMovement)
         {
             MoveSphere();
@@ -125,19 +131,6 @@ public class CurvedMotion : MonoBehaviour
             zPositionThisFrame = transform.position.z;
         }
         zPositionLastFrame = zPositionThisFrame;
-        //transform.position += speed * Time.deltaTime * Vector3.back;
-
-            //if (transform.position.z < -.2f)
-            //{
-            //    cyclesForPositionChange++;
-            //    if (cyclesForPositionChange >= config.changeOnCycleCount)
-            //    {
-            //        RandomizeHoopStartPosition();
-            //        cyclesForPositionChange = 0;
-            //    }
-
-            //    transform.position = hoopStartPosition;
-            //}
     }
     IEnumerator RandomizeSpeed(float speedUpdateInterval)
 

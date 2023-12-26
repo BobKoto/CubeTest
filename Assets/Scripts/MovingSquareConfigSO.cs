@@ -19,6 +19,12 @@ public class MovingSquareConfigSO : ScriptableObject
     public float maxXStartposition = 3;
     public float minYStartPosition = 1f;
     public float maxYStartposition = -2f;
+    [Header ("Max 3 elements/vector3s; descending on z")]
+    public Vector3[] positionPointsGroup1;
+    public Vector3[] positionPointsGroup2;
+    public Vector3[] positionPointsGroup3;
+    [Range (0,1)]
+    public float setTimeScale = 1f;
     // public float[] randomZStartPositions;
 
     public float GetRandomZStartPosition()
