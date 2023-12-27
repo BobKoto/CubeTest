@@ -14,7 +14,7 @@ public class CurvedMotion : MonoBehaviour
     //public float distanceOffset = .7f;  //12/21/23 replaced with scriptable obj.
     //public Transform t1, t2, t3;
     public bool point1Hit, point2Hit, point3Hit;
-    //bool letsDebug;
+    bool letsDebug;
     float zPositionLastFrame, zPositionThisFrame;
     private void OnEnable()
     {
@@ -35,14 +35,30 @@ public class CurvedMotion : MonoBehaviour
         speed = config.speed;
 
         RandomizeHoopStartPosition();
-        //if (name == "CurvingSphere")
-        //{
-        //    Debug.Log(name + " is Found see inside for debug options");
-        //    letsDebug = true; //uncomment this block esp. to temporarily enable (lots of) debug logs
-        //}
+        if (config.allowLetsDebugTrace)
+        {
+            if (name == "CurvingSphere (10)")  // limit trace to this gameobject
+            {
+                Debug.Log(name + " is Found see inside for debug options");
+                letsDebug = true; //uncomment this block esp. to temporarily enable (lots of) debug logs
+            }
+        }
+
         StartCoroutine(RandomizeSpeed(config.speedUpdateInterval));
     }
-    void RandomizeHoopStartPosition()  //When restart is pressed & in  on Start()
+    void RandomizeHoopStartPosition()  //When restart is pressed & in  on Start()  - with a random stretch of Z 
+    {
+        hoopStartPosition.z = config.GetRandomZStartPosition() + Random.Range(config.zStretchMin, config.zStretchMax); // try to reduce initial scattering 
+        hoopStartPosition.x = config.GetRandomXStartPosition(); //
+        hoopStartPosition.y = config.GetRandomYStartPosition(); //
+        transform.position = hoopStartPosition;
+        zPositionLastFrame = transform.position.z + 1;
+        canMove = true; //need for restart 
+        point1Hit = false;
+        point2Hit = false;
+        point3Hit = false;
+    }
+    void RandomizeHoopStartRecyclePosition()  //When object(sphere) hits front send it back
     {
         hoopStartPosition.z = config.GetRandomZStartPosition(); //
         hoopStartPosition.x = config.GetRandomXStartPosition(); //
@@ -85,7 +101,7 @@ public class CurvedMotion : MonoBehaviour
             if (Vector3.Distance(transform.position, v1) < config.distanceOffset)  //set to 3 because .001 stalled 
             {
                 point1Hit = true;
-               // Debug.Log("POINT 1 hit");
+               if (letsDebug) Debug.Log(name + " POINT 1 hit at " + transform.position);
             }
         }
         else
@@ -95,7 +111,8 @@ public class CurvedMotion : MonoBehaviour
             if (Vector3.Distance(transform.position, v2) < config.distanceOffset)
             {
                 point2Hit = true;
-               // Debug.Log("POINT 2 hit");
+                // Debug.Log("POINT 2 hit");
+                if (letsDebug) Debug.Log(name + " POINT 2 hit at " + transform.position);
             }
         }
         else
@@ -105,7 +122,8 @@ public class CurvedMotion : MonoBehaviour
             if (Vector3.Distance(transform.position, v3) < config.distanceOffset)
             {
                 point3Hit = true;
-              //  Debug.Log("POINT 3 hit");
+                //  Debug.Log("POINT 3 hit");
+                if (letsDebug) Debug.Log(name + " POINT 3 hit at " + transform.position);
             }
         }
         if (transform.position.z < -.2f)
@@ -113,8 +131,10 @@ public class CurvedMotion : MonoBehaviour
             point1Hit = false;
             point2Hit = false;
             point3Hit = false;
-            RandomizeHoopStartPosition();
+            if (letsDebug) Debug.Log(name + " *FRONTEND* hit at " + transform.position);
+            RandomizeHoopStartRecyclePosition();
             //transform.position = hoopStartPosition;
+
         }
         else
         {
