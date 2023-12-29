@@ -6,7 +6,7 @@ public class CurvedMotion : MonoBehaviour
 {// Component of CurvingSphere(s) 
     float speed = 10;
     public int cyclesForPositionChange;
-    public bool ignoreAllMovement = true;  //so we can test/see performance with/without object movement especially on handheld browsers
+    public bool ignoreAllMovement; // = true;  //so we can test/see performance with/without object movement especially on handheld browsers
     Vector3 hoopStartPosition;
     bool canMove;
     public MovingSquareConfigSO config;
@@ -15,18 +15,21 @@ public class CurvedMotion : MonoBehaviour
     //public Transform t1, t2, t3;
     public bool point1Hit, point2Hit, point3Hit;
     bool letsDebug;
+    bool gameStarted;
     float zPositionLastFrame, zPositionThisFrame;
     private void OnEnable()
     {
         EventBroadcaster.OnGameStartPressed += SetCanMove;
         EventBroadcaster.OnIgnoreMovementPressed += SetIgnoreAllMovement;
-        EventBroadcaster.OnRestartPressed += RandomizeHoopStartPosition;
+        EventBroadcaster.OnRestartPressed += OnRestartPressed;//RandomizeHoopStartPosition;
+        EventBroadcaster.ReportRoundOverEvent += OnReportRoundOver;
     }
     private void OnDisable()
     {
         EventBroadcaster.OnGameStartPressed -= SetCanMove;
         EventBroadcaster.OnIgnoreMovementPressed -= SetIgnoreAllMovement;
-        EventBroadcaster.OnRestartPressed -= RandomizeHoopStartPosition;
+        EventBroadcaster.OnRestartPressed -= OnRestartPressed;//RandomizeHoopStartPosition;
+        EventBroadcaster.ReportRoundOverEvent -= OnReportRoundOver;
         StopAllCoroutines();
     }
     void Start()
@@ -43,14 +46,13 @@ public class CurvedMotion : MonoBehaviour
                 letsDebug = true; //uncomment this block esp. to temporarily enable (lots of) debug logs
             }
         }
-
         StartCoroutine(RandomizeSpeed(config.speedUpdateInterval));
     }
     void RandomizeHoopStartPosition()  //When restart is pressed & in  on Start()  - with a random stretch of Z 
     {
-        hoopStartPosition.z = config.GetRandomZStartPosition() + Random.Range(config.zStretchMin, config.zStretchMax); // try to reduce initial scattering 
-        hoopStartPosition.x = config.GetRandomXStartPosition(); //
-        hoopStartPosition.y = config.GetRandomYStartPosition(); //
+        hoopStartPosition.z = config.GetRandomZStartPosition(); 
+        hoopStartPosition.x = config.GetRandomXStartPosition(); 
+        hoopStartPosition.y = config.GetRandomYStartPosition(); 
         transform.position = hoopStartPosition;
         zPositionLastFrame = transform.position.z + 1;
         canMove = true; //need for restart 
@@ -58,29 +60,42 @@ public class CurvedMotion : MonoBehaviour
         point2Hit = false;
         point3Hit = false;
     }
-    void RandomizeHoopStartRecyclePosition()  //When object(sphere) hits front send it back
-    {
-        hoopStartPosition.z = config.GetRandomZStartPosition(); //
-        hoopStartPosition.x = config.GetRandomXStartPosition(); //
-        hoopStartPosition.y = config.GetRandomYStartPosition(); //
-        transform.position = hoopStartPosition;
-        zPositionLastFrame = transform.position.z + 1;
-        canMove = true; //need for restart 
-    }
+    //void RandomizeHoopStartRecyclePosition()  //When object(sphere) hits front send it back
+    //{
+    //    hoopStartPosition.z = config.GetRandomZStartPosition(); //
+    //    hoopStartPosition.x = config.GetRandomXStartPosition(); //
+    //    hoopStartPosition.y = config.GetRandomYStartPosition(); //
+    //    transform.position = hoopStartPosition;
+    //    zPositionLastFrame = transform.position.z + 1;
+    //    canMove = true; //need for restart 
+    //}
     void SetIgnoreAllMovement()
     {
-        ignoreAllMovement = !ignoreAllMovement;
+        if(gameStarted) ignoreAllMovement = !ignoreAllMovement;
     }
     void SetCanMove()  //user pressed start so now the hoops' movement is controlled by the move/stop button - why? may never know...
     {
+        gameStarted = true;
+        ignoreAllMovement = false;
         canMove = true;
     }
+
     void ResetCanMove()    //from SendMessage in ScoreHit
     {
         //Debug.Log(this.name + "  recvd msg from ScoreHit to reset canMove to false .......");
         canMove = false;
     }
-    // Update is called once per frame
+    
+    void OnReportRoundOver()
+    {
+        gameStarted = false;
+    }
+    void OnRestartPressed()
+    {
+        ignoreAllMovement = false;
+        gameStarted = true;
+        RandomizeHoopStartPosition();
+    }
     void Update()
     {
         Time.timeScale = config.setTimeScale;
@@ -88,13 +103,11 @@ public class CurvedMotion : MonoBehaviour
         {
             MoveSphere();
         }
-
     }
 
     void MoveSphere()
     {   //proof of concept (visual) - not final code!
         var step = speed * Time.deltaTime; // calculate distance to move
-       // zPositionLastFrame = transform.position.z;  //to check if stalled (why it stalls? dunno yet)  
         if (!point1Hit)
         {
             transform.position = Vector3.MoveTowards(transform.position, v1, step);
@@ -111,7 +124,6 @@ public class CurvedMotion : MonoBehaviour
             if (Vector3.Distance(transform.position, v2) < config.distanceOffset)
             {
                 point2Hit = true;
-                // Debug.Log("POINT 2 hit");
                 if (letsDebug) Debug.Log(name + " POINT 2 hit at " + transform.position);
             }
         }
@@ -122,7 +134,6 @@ public class CurvedMotion : MonoBehaviour
             if (Vector3.Distance(transform.position, v3) < config.distanceOffset)
             {
                 point3Hit = true;
-                //  Debug.Log("POINT 3 hit");
                 if (letsDebug) Debug.Log(name + " POINT 3 hit at " + transform.position);
             }
         }
@@ -132,9 +143,7 @@ public class CurvedMotion : MonoBehaviour
             point2Hit = false;
             point3Hit = false;
             if (letsDebug) Debug.Log(name + " *FRONTEND* hit at " + transform.position);
-            RandomizeHoopStartRecyclePosition();
-            //transform.position = hoopStartPosition;
-
+            RandomizeHoopStartPosition();
         }
         else
         {
@@ -152,8 +161,8 @@ public class CurvedMotion : MonoBehaviour
         }
         zPositionLastFrame = zPositionThisFrame;
     }
-    IEnumerator RandomizeSpeed(float speedUpdateInterval)
 
+    IEnumerator RandomizeSpeed(float speedUpdateInterval)
     {
         var _delay = new WaitForSeconds(speedUpdateInterval);
         while (true)
@@ -161,7 +170,6 @@ public class CurvedMotion : MonoBehaviour
             yield return _delay;
             speed = Random.Range(config.speedMin, config.speedMax); //Random.Range(6f, 13f); //eyeballed //12/21/23 use scriptable obj.
         }
-
     }
 }
 

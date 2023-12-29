@@ -4550,7 +4550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &443634547
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9807,8 +9807,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -55.0609, y: 19}
-  m_SizeDelta: {x: 1321.1079, y: 468.8287}
+  m_AnchoredPosition: {x: -53, y: 26.501}
+  m_SizeDelta: {x: 1331.9001, y: 400.4765}
   m_Pivot: {x: 0.48844227, y: 0.56617326}
 --- !u!114 &983419027
 MonoBehaviour:
@@ -9853,19 +9853,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 983419028}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1583124358}
-        m_TargetAssemblyTypeName: EventBroadcaster, Assembly-CSharp
-        m_MethodName: OnIntroButtonClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &983419028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20897,8 +20885,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -11}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -32.37743, y: -10.999985}
+  m_SizeDelta: {x: -64.7549, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2069596494
 MonoBehaviour:
@@ -20921,8 +20909,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\nThis is an exercise and test of your reflexes and your action planning
-    skills.\n\nAnticipate and eliminate your opposing forces (the spheres).  \n\n 
-    START >>\n"
+    skills.\n\nAnticipate and intercept to eliminate your opposing forces (the spheres). 
+    \n\n  \n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20985,7 +20973,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 32.37744, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

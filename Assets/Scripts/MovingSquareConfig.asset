@@ -16,17 +16,15 @@ MonoBehaviour:
   speedMin: 8
   speedMax: 12
   speedUpdateInterval: 2
-  distanceOffset: 2
+  distanceOffset: 1
   changeOnCycleCount: 10
   defaultRandomZposition: 50
   minZStartPosition: 60
   maxZStartposition: 65
-  minXStartPosition: -5
-  maxXStartposition: 5
-  minYStartPosition: -5
-  maxYStartposition: 5
-  zStretchMin: 1
-  zStretchMax: 50
+  minXStartPosition: -30
+  maxXStartposition: 30
+  minYStartPosition: -20
+  maxYStartposition: 20
   allowLetsDebugTrace: 0
   positionPointsGroup1: []
   positionPointsGroup2: []

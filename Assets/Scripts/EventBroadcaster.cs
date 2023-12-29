@@ -19,6 +19,9 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     public delegate void ReportHit();
     public static event ReportHit ReportHitEvent;
 
+    public delegate void ReportRoundOver();
+    public static event ReportRoundOver ReportRoundOverEvent;
+
     GameObject buttonStart, titleText, touchscreenNote, buttonIgnoreMovement, onScreenJoystick;
     static TextMeshProUGUI hoopsHitNumber, yourTimeNumber;
     static GameObject buttonRestart, buttonIntro;
@@ -30,7 +33,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     private void Start()
     {
         buttonStart = GameObject.Find("ButtonStart");
-        if (buttonStart) buttonStart.SetActive(false);
+       // if (buttonStart) buttonStart.SetActive(false);
         buttonRestart = GameObject.Find("ButtonRestart");
         buttonIntro = GameObject.Find("ButtonIntro");
         buttonRestart.SetActive(false);
@@ -62,6 +65,8 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         {
             if (OnIgnoreMovementPressed != null)
                 OnIgnoreMovementPressed();
+            if (ReportRoundOverEvent != null)
+                ReportRoundOverEvent();
            // buttonRestart = GameObject.Find("ButtonRestart");
             buttonRestart.SetActive(true);
             hoopSuccess = 0;
@@ -76,13 +81,14 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         yield return new WaitForSeconds(_delay);
         touchscreenNote.SetActive(false);
     }
-    public void OnIntroButtonClicked()
-    {
-        buttonIntro.SetActive(false);
-        buttonStart.SetActive(true);
-    }
+    //public void OnIntroButtonClicked()
+    //{
+    //    buttonIntro.SetActive(false);
+    //    buttonStart.SetActive(true);
+    //}
     public void OnStartButtonClicked()
     {
+        if (buttonIntro) buttonIntro.SetActive(false);
         if (OnGameStartPressed != null)
             OnGameStartPressed();     //tell listeners - and now WebGL should be safe to look at new input devices (GamePad for example)
 
@@ -106,6 +112,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         //string flipMoveStopText = "";  //placeholder. we'll flip the text from like Stop/Go if we want to keep
         if (OnIgnoreMovementPressed != null)
             OnIgnoreMovementPressed();
+        timerOn = !timerOn;
     }
     static IEnumerator YourTimer()
     {

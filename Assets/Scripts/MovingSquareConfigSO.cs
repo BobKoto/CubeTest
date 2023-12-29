@@ -19,8 +19,8 @@ public class MovingSquareConfigSO : ScriptableObject
     public float maxXStartposition = 3;
     public float minYStartPosition = 1f;
     public float maxYStartposition = -2f;
-    public float zStretchMin = 10f;
-    public float zStretchMax = 15f;
+    //public float zStretchMin = 10f;
+    //public float zStretchMax = 15f;
     public bool allowLetsDebugTrace;
     [Header ("Max 3 elements/vector3s; descending on z")]
     public Vector3[] positionPointsGroup1;
