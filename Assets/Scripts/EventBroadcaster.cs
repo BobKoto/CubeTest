@@ -22,14 +22,16 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     public delegate void ReportRoundOver();
     public static event ReportRoundOver ReportRoundOverEvent;
 
-    GameObject buttonStart, titleText, touchscreenNote, buttonIgnoreMovement, onScreenJoystick;
+    GameObject buttonStart, titleText, touchscreenNote, onScreenJoystick;
     static TextMeshProUGUI hoopsHitNumber, yourTimeNumber;
-    static GameObject buttonRestart, buttonIntro;
+    static GameObject buttonRestart, buttonIntro, buttonIgnoreMovement ;
     public static int hoopSuccess;
     public static int hoopsHitLimit = 50;
     static int seconds;
     static bool timerOn;
     Coroutine yourTimerIE;
+    static AudioSource audioSource;
+
     private void Start()
     {
         buttonStart = GameObject.Find("ButtonStart");
@@ -37,6 +39,10 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         buttonRestart = GameObject.Find("ButtonRestart");
         buttonIntro = GameObject.Find("ButtonIntro");
         buttonRestart.SetActive(false);
+
+        buttonIgnoreMovement = GameObject.Find("ButtonIgnoreMovement");
+        buttonIgnoreMovement.SetActive(false);
+
         hoopsHitNumber = GameObject.Find("HoopsHitNumber").GetComponent<TextMeshProUGUI>();
         yourTimeNumber = GameObject.Find("YourTimeNumber").GetComponent<TextMeshProUGUI>();
         //yourTimerIE = StartCoroutine( YourTimer());
@@ -53,6 +59,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
             Debug.Log("Input.touchSupported is " + Input.touchSupported + " If True broadcast something if we want to modify UI/Gamepad");
 
         }
+        audioSource = GetComponent<AudioSource>();
     }
     public static void UpdateScore(int addScore)
     {
@@ -72,6 +79,8 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
             hoopSuccess = 0;
            // seconds = 0;
             timerOn = false;
+            audioSource.Pause();
+            if (buttonIgnoreMovement) buttonIgnoreMovement.SetActive(false);
         }
     }
     IEnumerator ShowTouchscreenNote(int _delay)
@@ -97,6 +106,8 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         titleText = GameObject.Find("TitleText");
         titleText.SetActive(false);
         timerOn = true;
+        audioSource.Play();
+        if (buttonIgnoreMovement) buttonIgnoreMovement.SetActive(true);
     }
     public void OnRestartButtonClicked()
     {
@@ -106,6 +117,8 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         buttonRestart.SetActive(false);
         seconds = 0;
         timerOn = true;
+        audioSource.Play();
+        if (buttonIgnoreMovement) buttonIgnoreMovement.SetActive(true);
     }
     public void OnIgnoreMovementButtonClicked()
     {
@@ -113,6 +126,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         if (OnIgnoreMovementPressed != null)
             OnIgnoreMovementPressed();
         timerOn = !timerOn;
+        if (!timerOn) audioSource.Pause(); else audioSource.Play();
     }
     static IEnumerator YourTimer()
     {
