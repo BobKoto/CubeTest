@@ -48,17 +48,18 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         //yourTimerIE = StartCoroutine( YourTimer());
 
         onScreenJoystick = GameObject.Find("UI_Virtual_Joystick_Move");
-        if (onScreenJoystick) onScreenJoystick.SetActive(false);
-        touchscreenNote = GameObject.Find("TouchscreenNote");
-        touchscreenNote.SetActive(false);
+        if (onScreenJoystick) onScreenJoystick.SetActive(false);  
+        touchscreenNote = GameObject.Find("TouchscreenNote");     //won't find if object is not active(enabled) in hierarchy
+        if (touchscreenNote) touchscreenNote.SetActive(false);
         if (Input.touchSupported)
         {
             onScreenJoystick.SetActive(true);
-            StartCoroutine(ShowTouchscreenNote(5));
+            //StartCoroutine(ShowTouchscreenNote(5));
             //Cursor.lockState = CursorLockMode.Locked;
-            Debug.Log("Input.touchSupported is " + Input.touchSupported + " If True broadcast something if we want to modify UI/Gamepad");
-
+            //Debug.Log("Input.touchSupported is " + Input.touchSupported + " If True broadcast something if we want to modify UI/Gamepad");
         }
+        //1/2/24 enable jstick anyway and trust that non-touch devices will see mouse pointer down & drag  - keep "if" above in case 
+        else onScreenJoystick.SetActive(true);  
         audioSource = GetComponent<AudioSource>();
     }
     public static void UpdateScore(int addScore)
