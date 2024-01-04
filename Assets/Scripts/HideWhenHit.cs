@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HideWhenHit : MonoBehaviour
-{  //Component of prefab MovingSquare(s), hide the square "loop(s)" when hit, unhide on restart press
+{  //Component of prefab MovingSquare(s), hide the square "loop(s)" when hit, unhide on restart press   - NOT USED 
     BoxCollider myCollider;
     public MeshRenderer[] meshrenderers;
     //GameObject buttonRestart;
@@ -40,12 +40,12 @@ public class HideWhenHit : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventBroadcaster.OnRestartPressed += OnRestartPressedEvent;
+      //  EventBroadcaster.OnRestartPressed += OnRestartPressedEvent;
         EventBroadcaster.ReportHitEvent += OnReportHitEvent;
     }
     private void OnDisable()
     {
-        EventBroadcaster.OnRestartPressed -= OnRestartPressedEvent;
+      //  EventBroadcaster.OnRestartPressed -= OnRestartPressedEvent;
         EventBroadcaster.ReportHitEvent -= OnReportHitEvent;
     }
 }

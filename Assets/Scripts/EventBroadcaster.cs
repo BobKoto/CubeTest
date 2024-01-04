@@ -13,8 +13,8 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     public delegate void IgnoreMovementPressed();
     public static event IgnoreMovementPressed OnIgnoreMovementPressed;
 
-    public delegate void RestartPressed();
-    public static event RestartPressed OnRestartPressed;
+    //public delegate void RestartPressed();
+    //public static event RestartPressed OnRestartPressed;
 
     public delegate void ReportHit();
     public static event ReportHit ReportHitEvent;
@@ -22,9 +22,10 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     public delegate void ReportRoundOver();
     public static event ReportRoundOver ReportRoundOverEvent;
 
-    GameObject buttonStart, titleText, touchscreenNote, onScreenJoystick;
+    GameObject  titleText, touchscreenNote, onScreenJoystick;
     static TextMeshProUGUI hoopsHitNumber, yourTimeNumber;
-    static GameObject buttonRestart, buttonIntro, buttonIgnoreMovement ;
+    static GameObject buttonStart, buttonIntro, buttonIgnoreMovement ;
+    //static GameObject buttonRestart;
     public static int hoopSuccess;
     public static int hoopsHitLimit = 50;
     static int seconds;
@@ -36,9 +37,9 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     {
         buttonStart = GameObject.Find("ButtonStart");
        // if (buttonStart) buttonStart.SetActive(false);
-        buttonRestart = GameObject.Find("ButtonRestart");
         buttonIntro = GameObject.Find("ButtonIntro");
-        buttonRestart.SetActive(false);
+        //buttonRestart = GameObject.Find("ButtonRestart");
+        //buttonRestart.SetActive(false);
 
         buttonIgnoreMovement = GameObject.Find("ButtonIgnoreMovement");
         buttonIgnoreMovement.SetActive(false);
@@ -76,13 +77,19 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
             if (ReportRoundOverEvent != null)
                 ReportRoundOverEvent();
            // buttonRestart = GameObject.Find("ButtonRestart");
-            buttonRestart.SetActive(true);
+            //buttonRestart.SetActive(true);
+            buttonStart.SetActive(true);
             hoopSuccess = 0;
            // seconds = 0;
             timerOn = false;
             audioSource.Pause();
             if (buttonIgnoreMovement) buttonIgnoreMovement.SetActive(false);
         }
+    }
+    void ResetScore()
+    {
+        hoopSuccess = 0;
+        hoopsHitNumber.text = hoopSuccess.ToString();
     }
     IEnumerator ShowTouchscreenNote(int _delay)
     {
@@ -103,24 +110,26 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
             OnGameStartPressed();     //tell listeners - and now WebGL should be safe to look at new input devices (GamePad for example)
 
         buttonStart.SetActive(false);
-        yourTimerIE = StartCoroutine(YourTimer());
+        if (yourTimerIE == null)   yourTimerIE = StartCoroutine(YourTimer());
         titleText = GameObject.Find("TitleText");
-        titleText.SetActive(false);
+        if (titleText) titleText.SetActive(false);
+        ResetScore();
         timerOn = true;
-        audioSource.Play();
-        if (buttonIgnoreMovement) buttonIgnoreMovement.SetActive(true);
-    }
-    public void OnRestartButtonClicked()
-    {
-        if (OnRestartPressed != null)
-            OnRestartPressed();     //tell listeners - and now WebGl should be safe to look at new input devices (GamePad for example)
-        buttonRestart = GameObject.Find("ButtonRestart");
-        buttonRestart.SetActive(false);
         seconds = 0;
-        timerOn = true;
         audioSource.Play();
         if (buttonIgnoreMovement) buttonIgnoreMovement.SetActive(true);
     }
+    //public void OnRestartButtonClicked()
+    //{
+    //    if (OnRestartPressed != null)
+    //        OnRestartPressed();     //tell listeners - and now WebGl should be safe to look at new input devices (GamePad for example)
+    //    buttonRestart = GameObject.Find("ButtonRestart");
+    //    buttonRestart.SetActive(false);
+    //    seconds = 0;
+    //    timerOn = true;
+    //    audioSource.Play();
+    //    if (buttonIgnoreMovement) buttonIgnoreMovement.SetActive(true);
+    //}
     public void OnIgnoreMovementButtonClicked()
     {
         //string flipMoveStopText = "";  //placeholder. we'll flip the text from like Stop/Go if we want to keep

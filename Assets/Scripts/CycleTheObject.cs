@@ -18,13 +18,13 @@ public class CycleTheObject : MonoBehaviour
     {
         EventBroadcaster.OnGameStartPressed += SetCanMove;
         EventBroadcaster.OnIgnoreMovementPressed += SetIgnoreAllMovement;
-        EventBroadcaster.OnRestartPressed += RandomizeHoopStartPosition;
+       // EventBroadcaster.OnRestartPressed += RandomizeHoopStartPosition;
     }
     private void OnDisable()
     {
         EventBroadcaster.OnGameStartPressed -= SetCanMove;
         EventBroadcaster.OnIgnoreMovementPressed -= SetIgnoreAllMovement;
-        EventBroadcaster.OnRestartPressed -= RandomizeHoopStartPosition;
+       // EventBroadcaster.OnRestartPressed -= RandomizeHoopStartPosition;
         StopAllCoroutines();
     }
     void Start()

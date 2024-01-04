@@ -19,16 +19,16 @@ public class CurvedMotion : MonoBehaviour
     float zPositionLastFrame, zPositionThisFrame;
     private void OnEnable()
     {
-        EventBroadcaster.OnGameStartPressed += SetCanMove;
+        EventBroadcaster.OnGameStartPressed += StartGame;
         EventBroadcaster.OnIgnoreMovementPressed += SetIgnoreAllMovement;
-        EventBroadcaster.OnRestartPressed += OnRestartPressed;//RandomizeHoopStartPosition;
+       // EventBroadcaster.OnRestartPressed += OnRestartPressed;//RandomizeHoopStartPosition;
         EventBroadcaster.ReportRoundOverEvent += OnReportRoundOver;
     }
     private void OnDisable()
     {
-        EventBroadcaster.OnGameStartPressed -= SetCanMove;
+        EventBroadcaster.OnGameStartPressed -= StartGame;
         EventBroadcaster.OnIgnoreMovementPressed -= SetIgnoreAllMovement;
-        EventBroadcaster.OnRestartPressed -= OnRestartPressed;//RandomizeHoopStartPosition;
+     //   EventBroadcaster.OnRestartPressed -= OnRestartPressed;//RandomizeHoopStartPosition;
         EventBroadcaster.ReportRoundOverEvent -= OnReportRoundOver;
         StopAllCoroutines();
     }
@@ -37,7 +37,7 @@ public class CurvedMotion : MonoBehaviour
         hoopStartPosition = transform.position;
         speed = config.speed;
 
-        RandomizeHoopStartPosition();
+       // RandomizeHoopStartPosition();
         if (config.allowLetsDebugTrace)
         {
             if (name == "CurvingSphere (10)")  // limit trace to this gameobject
@@ -73,8 +73,9 @@ public class CurvedMotion : MonoBehaviour
     {
         if(gameStarted) ignoreAllMovement = !ignoreAllMovement;
     }
-    void SetCanMove()  //user pressed start so now the hoops' movement is controlled by the move/stop button - why? may never know...
+    void StartGame()  //user pressed start so now the hoops' movement is controlled by the move/stop button - why? may never know...
     {
+        RandomizeHoopStartPosition();
         gameStarted = true;
         ignoreAllMovement = false;
         canMove = true;

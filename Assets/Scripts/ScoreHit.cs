@@ -6,9 +6,9 @@ public class ScoreHit : MonoBehaviour
 {  //Component of Sphere(s) in prefab MovingSquare
     SphereCollider myCollider;
     MeshRenderer meshrenderer;
-    //GameObject buttonRestart;
     public ScriptableAudio scriptableAudio;
     AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +30,6 @@ public class ScoreHit : MonoBehaviour
             PlayRandomClip();
         }
     }
-
     void PlayRandomClip()
     {
         AudioClip randomClip = scriptableAudio.GetRandomClip();
@@ -41,19 +40,19 @@ public class ScoreHit : MonoBehaviour
             audioSource.Play();
         }
     }
-        public void OnRestartPressedEvent()
+    public void OnGameStartPressedEvent()
     {
         if (myCollider) myCollider.enabled = true;
         if (meshrenderer) meshrenderer.enabled = true;
-        //buttonRestart = GameObject.Find("ButtonRetart");
-        //if (buttonRestart) buttonRestart.SetActive(false);
     }
     private void OnEnable()
     {
-        EventBroadcaster.OnRestartPressed += OnRestartPressedEvent;
+        //EventBroadcaster.OnRestartPressed += OnGameStartPressedEvent;
+        EventBroadcaster.OnGameStartPressed += OnGameStartPressedEvent;
     }
     private void OnDisable()
     {
-        EventBroadcaster.OnRestartPressed -= OnRestartPressedEvent;
+        //EventBroadcaster.OnRestartPressed -= OnGameStartPressedEvent;
+        EventBroadcaster.OnGameStartPressed -= OnGameStartPressedEvent;
     }
 }
