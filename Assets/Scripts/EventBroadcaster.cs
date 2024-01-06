@@ -24,7 +24,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
 
     GameObject  titleText, touchscreenNote, onScreenJoystick;
     static TextMeshProUGUI hoopsHitNumber, yourTimeNumber;
-    static GameObject buttonStart, buttonIntro, buttonIgnoreMovement ;
+    static GameObject buttonStart, buttonIntro, buttonIgnoreMovement, buttonSetupUI ;
     //static GameObject buttonRestart;
     public static int hoopSuccess;
     public static int hoopsHitLimit = 50;
@@ -38,6 +38,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         buttonStart = GameObject.Find("ButtonStart");
        // if (buttonStart) buttonStart.SetActive(false);
         buttonIntro = GameObject.Find("ButtonIntro");
+        buttonSetupUI = GameObject.Find("ButtonSetupUI");
         //buttonRestart = GameObject.Find("ButtonRestart");
         //buttonRestart.SetActive(false);
 
@@ -48,7 +49,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
         yourTimeNumber = GameObject.Find("YourTimeNumber").GetComponent<TextMeshProUGUI>();
         //yourTimerIE = StartCoroutine( YourTimer());
 
-        onScreenJoystick = GameObject.Find("UI_Virtual_Joystick_Move");
+        onScreenJoystick = GameObject.Find("JoystickRight");                       //("UI_Virtual_Joystick_Move");
         if (onScreenJoystick) onScreenJoystick.SetActive(false);  
         touchscreenNote = GameObject.Find("TouchscreenNote");     //won't find if object is not active(enabled) in hierarchy
         if (touchscreenNote) touchscreenNote.SetActive(false);
@@ -79,6 +80,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
            // buttonRestart = GameObject.Find("ButtonRestart");
             //buttonRestart.SetActive(true);
             buttonStart.SetActive(true);
+            buttonSetupUI.SetActive(true);
             hoopSuccess = 0;
            // seconds = 0;
             timerOn = false;
@@ -106,6 +108,7 @@ public class EventBroadcaster : MonoBehaviour   //and half-assed game setup/mana
     public void OnStartButtonClicked()
     {
         if (buttonIntro) buttonIntro.SetActive(false);
+        if (buttonSetupUI) buttonSetupUI.SetActive(false);
         if (OnGameStartPressed != null)
             OnGameStartPressed();     //tell listeners - and now WebGL should be safe to look at new input devices (GamePad for example)
 

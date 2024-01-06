@@ -6,7 +6,7 @@ public class MoveSpot1 : MonoBehaviour
 {
     Vector3 vScale, vPosition;
     //  float speed = 1.2f;
-    float vXYZ = 3f;
+    //float vXYZ = 3f;
     private float waitTime = .2f;
     private float timer = 0.0f;
     bool moveLeft = false;
