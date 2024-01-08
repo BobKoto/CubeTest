@@ -18,4 +18,3 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ebf5b45d3c1e4cc4b93786fb8f2847ec, type: 3}
   - {fileID: 8300000, guid: 38d24810cdd2d4d4a93d422a20556598, type: 3}
   - {fileID: 8300000, guid: 181f6eb97b4f9b944a25c8a93bc36f0d, type: 3}
-  scriptableAudio: {fileID: 11400000}

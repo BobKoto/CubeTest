@@ -5,7 +5,7 @@ using UnityEngine;
 public class PositionJoystick : MonoBehaviour
 { //Component of EventBroadcasts  - Simple reposition of joystick via gameObject.SetActive (true/false)
     //Vector3 leftPos, centerPos, rightPos, defaultPos;
-    GameObject setupUI, buttonSetupUI, buttonStart, buttonIgnoreMovement, buttonJoyLeft, buttonJoyCenter, buttonJoyRight;
+    GameObject setupUI, buttonSetupUI, buttonStart, buttonIgnoreMovement, buttonIntro; // buttonJoyLeft, buttonJoyCenter, buttonJoyRight;
     GameObject joystickLeft, joystickCenter, joystickRight;
     GameObject joyStickImageLeft, joyStickImageCenter, joyStickImageRight;
     const int enableJoyStickLeft = 1;
@@ -34,9 +34,10 @@ public class PositionJoystick : MonoBehaviour
         buttonSetupUI = GameObject.Find("ButtonSetupUI");
         buttonStart = GameObject.Find("ButtonStart");
         buttonIgnoreMovement = GameObject.Find("ButtonIgnoreMovement");
-        buttonJoyLeft = GameObject.Find("ButtonJoyLeft");
-        buttonJoyCenter = GameObject.Find("ButtonJoyCenter");
-        buttonJoyRight = GameObject.Find("ButtonJoyRight");
+        buttonIntro = GameObject.Find("ButtonIntro");
+        //buttonJoyLeft = GameObject.Find("ButtonJoyLeft");  1/6/23 these 3 not used 
+        //buttonJoyCenter = GameObject.Find("ButtonJoyCenter");
+        //buttonJoyRight = GameObject.Find("ButtonJoyRight");
         if (setupUI) setupUI.SetActive(false);
         DisableJoysticksAndTheirImages();  //cuz all 3 start out active = true
         if (joystickRight) joystickRight.SetActive(true);  //the default
@@ -46,7 +47,7 @@ public class PositionJoystick : MonoBehaviour
     {
         //enable UI canvas objects(setupUI): contains position indicator buttons, and buttonSetupExit 
         //disable buttonStart and buttonIgnoreMovement and all joysticks
-
+        if (buttonIntro) buttonIntro.SetActive(false);
         if (buttonStart) buttonStart.SetActive(false);
         if (buttonIgnoreMovement) buttonIgnoreMovement.SetActive(false);
         if (buttonSetupUI) buttonSetupUI.SetActive(false);

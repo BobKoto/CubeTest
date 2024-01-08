@@ -1788,7 +1788,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 797.3, y: 491.82666}
+  m_AnchoredPosition: {x: 785, y: 491.82666}
   m_SizeDelta: {x: 128.9153, y: 70.9365}
   m_Pivot: {x: -0.0000015692785, y: 0.5}
 --- !u!114 &120380334
@@ -16128,8 +16128,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 634, y: 500.5}
-  m_SizeDelta: {x: 308.3351, y: 53.586}
+  m_AnchoredPosition: {x: 690.8976, y: 491.83}
+  m_SizeDelta: {x: 194.5404, y: 70.939}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1353205168
 MonoBehaviour:
@@ -16151,7 +16151,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hoops Hit
+  m_text: HITS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16214,7 +16214,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 25.53032, y: -0.00010681152, z: -1.9144974, w: 1.8109283}
+  m_margin: {x: 14.291519, y: -0.00010681152, z: -1.9144974, w: 1.8109283}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -16850,7 +16850,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: 506}
+  m_AnchoredPosition: {x: -215, y: 325}
   m_SizeDelta: {x: 352.089, y: 64.586}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1402100866
@@ -16875,10 +16875,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Intercept the Spheres
 
-    WASD or Arrows to move
-
-    Or mouse/finger
-    the joystick'
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16905,15 +16902,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 63.1
-  m_fontSizeBase: 63.1
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -16941,7 +16938,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -281.9985, y: 0, z: -329.6602, w: -124.83287}
+  m_margin: {x: -281.9985, y: 0, z: -329.6602, w: -109.1707}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -18096,7 +18093,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -665, y: 491.82666}
+  m_AnchoredPosition: {x: -709, y: 491.82666}
   m_SizeDelta: {x: 128.9153, y: 70.9365}
   m_Pivot: {x: -0.0000015692785, y: 0.5}
 --- !u!114 &1573425258
@@ -21723,8 +21720,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -37.608, y: -0.000091553}
-  m_SizeDelta: {x: 1331.9, y: 400.48}
+  m_AnchoredPosition: {x: 33, y: -23}
+  m_SizeDelta: {x: 1682.1124, y: 313.37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1920617763
 MonoBehaviour:
@@ -23394,7 +23391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -32.37574, y: -10.999774}
+  m_AnchoredPosition: {x: 24, y: -10.999771}
   m_SizeDelta: {x: -64.754776, y: -0.0035095215}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2069596494
@@ -23417,9 +23414,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\nThis is an exercise and test of your reflexes and your visiual action
-    planning skills.\n\nAnticipate and intercept to eliminate your opposing forces
-    (the spheres).  \n\n  \n"
+  m_text: "Exercise and test your reflexes and your visiual action planning skills.\n\nIntercept
+    to eliminate the oncoming Spheres.  \n\nTo Move: Mouse/Finger the joystick OR
+    use keyboard WASD or Arrow keys\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -23453,7 +23450,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -23482,7 +23479,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 32.37744, y: 0, z: 0, w: 0}
+  m_margin: {x: -24.251709, y: 0, z: 0, w: 20.99141}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
